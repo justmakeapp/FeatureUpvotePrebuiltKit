@@ -51,9 +51,9 @@ final class VoteOnFeaturesViewModel: ObservableObject {
                 let transformed = sorted.map { feature -> FeatureUpvoteKit.Feature in
                     return .init(
                         id: feature.id,
-                        name: Self.makeStringFromL10nValue(feature.name),
-                        description: Self.makeStringFromL10nValue(feature.description),
-                        tag: Self.makeStringFromL10nValue(feature.tag),
+                        name: feature.name.asString(L10n.bundle),
+                        description: feature.description.asString(L10n.bundle),
+                        tag: feature.tag.asString(L10n.bundle),
                         voteCount: feature.voteCount,
                         createdAt: feature.createdAt,
                         updatedAt: feature.updatedAt
@@ -74,8 +74,8 @@ final class VoteOnFeaturesViewModel: ObservableObject {
         case .alphabetical:
             return [.init(comparator: { a, b in
 
-                let aName = Self.makeStringFromL10nValue(a.name)
-                let bName = Self.makeStringFromL10nValue(b.name)
+                let aName = a.name.asString(L10n.bundle)
+                let bName = b.name.asString(L10n.bundle)
 
                 if aName < bName {
                     return .orderedAscending
@@ -111,14 +111,6 @@ final class VoteOnFeaturesViewModel: ObservableObject {
                 return .orderedSame
             }), voteCount]
         }
-    }
-
-    private static func makeStringFromL10nValue(_ value: L10nValue) -> String {
-        if let key = value.key {
-            let format = L10n.localizedString(key, tableName: value.tableName)
-            return String(format: format, locale: Locale.current, arguments: value.args)
-        }
-        return value.fallback
     }
 
     @MainActor

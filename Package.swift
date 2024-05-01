@@ -24,7 +24,6 @@ let package = Package(
         .target(
             name: "FeatureUpvotePrebuiltKit",
             dependencies: [
-                "FoundationX",
                 "FeatureUpvoteAPIClient",
                 "CombineExt",
                 .product(name: "FeatureUpvoteKitUI", package: "FeatureUpvote"),
@@ -36,6 +35,7 @@ let package = Package(
         .target(
             name: "FeatureUpvoteAPIClient",
             dependencies: [
+                "FoundationX",
                 .product(name: "SwiftyJSON", package: "SwiftyJSON"),
             ]
         )
