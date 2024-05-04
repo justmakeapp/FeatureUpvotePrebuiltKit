@@ -318,10 +318,10 @@ extension VoteOnFeaturesView {
 
             do {
                 guard name.count > 10 else {
-                    throw "Feature name should more than 10 characters"
+                    throw FeatureUpvoteL10n.L10n.Error.featureNameShoudMoreThan10Characters
                 }
                 guard desc.count > 10 else {
-                    throw "Feature description should more than 10 characters"
+                    throw FeatureUpvoteL10n.L10n.Error.featureDescShoudMoreThan10Characters
                 }
                 let event = FeatureUpvoteEvent.createFeature(
                     name: name,
