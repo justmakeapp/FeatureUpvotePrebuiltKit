@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mixpanel/mixpanel-swift",
       "state" : {
-        "revision" : "60e265aa20e97fa7db8b26bfd5b96345a85f958c",
-        "version" : "4.2.1"
+        "revision" : "7f73084879cf6f8c50ab93e34ab0aae2569b04a8",
+        "version" : "4.2.7"
       }
     },
     {
