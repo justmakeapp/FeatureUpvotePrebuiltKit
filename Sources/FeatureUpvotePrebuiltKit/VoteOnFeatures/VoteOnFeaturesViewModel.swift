@@ -51,9 +51,15 @@ final class VoteOnFeaturesViewModel: ObservableObject {
                 let transformed = sorted.map { feature -> FeatureUpvoteKit.Feature in
                     return .init(
                         id: feature.id,
-                        name: feature.name.asString(L10n.bundle),
-                        description: feature.description.asString(L10n.bundle),
-                        tag: feature.tag.asString(L10n.bundle),
+                        name: feature.name.asString { _ in
+                            L10n.bundle
+                        },
+                        description: feature.description.asString { _ in
+                            L10n.bundle
+                        },
+                        tag: feature.tag.asString { _ in
+                            L10n.bundle
+                        },
                         voteCount: feature.voteCount,
                         createdAt: feature.createdAt,
                         updatedAt: feature.updatedAt
@@ -74,8 +80,12 @@ final class VoteOnFeaturesViewModel: ObservableObject {
         case .alphabetical:
             return [.init(comparator: { a, b in
 
-                let aName = a.name.asString(L10n.bundle)
-                let bName = b.name.asString(L10n.bundle)
+                let aName = a.name.asString { _ in
+                    L10n.bundle
+                }
+                let bName = b.name.asString { _ in
+                    L10n.bundle
+                }
 
                 if aName < bName {
                     return .orderedAscending
