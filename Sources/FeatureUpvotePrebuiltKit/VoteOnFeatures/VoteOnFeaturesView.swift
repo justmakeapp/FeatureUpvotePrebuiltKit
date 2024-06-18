@@ -184,6 +184,7 @@ public struct VoteOnFeaturesView: View {
 
         case .loading:
             ProgressView()
+
         case let .loaded(data, votedFeatureIds):
             let allTags: [String] = Array(data.map(\.tag).uniqued())
             let filterdData: [FeatureUpvoteKit.Feature] = {
