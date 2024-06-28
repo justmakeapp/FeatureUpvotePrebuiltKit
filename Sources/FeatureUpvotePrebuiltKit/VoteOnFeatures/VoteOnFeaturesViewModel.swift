@@ -159,13 +159,13 @@ extension VoteOnFeaturesViewModel {
         case error(Error)
     }
 
-    enum SortType: Int, Hashable, CaseIterable, Identifiable {
+    enum SortType: Int, Hashable, CaseIterable, Identifiable, Sendable {
         case alphabetical
         case createdDate
         case updatedDate
         case commingSoon
 
-        static var allCases: [VoteOnFeaturesViewModel.SortType] = [
+        static let allCases: [VoteOnFeaturesViewModel.SortType] = [
             .commingSoon,
             .alphabetical,
             .createdDate,
