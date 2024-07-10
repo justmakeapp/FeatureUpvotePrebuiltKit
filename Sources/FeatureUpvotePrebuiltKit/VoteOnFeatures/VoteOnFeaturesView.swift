@@ -170,7 +170,7 @@ public struct VoteOnFeaturesView: View {
     private var contentView: some View {
         switch viewModel.state {
         case .empty:
-            CustomEmptyView(title: L10n.empty)
+            CustomEmptyView(L10n.empty)
 
         case let .error(error):
             VStack {
