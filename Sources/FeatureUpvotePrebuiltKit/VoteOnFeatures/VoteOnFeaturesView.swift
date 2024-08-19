@@ -211,21 +211,23 @@ public struct VoteOnFeaturesView: View {
                     VoteButton(voteCount: feature.voteCount, hasVoted: votedFeatureIds.contains(feature.id))
                         .onVote { [context = viewModel.context] isVote in
                             let featureID = feature.id
+                            let projectID = context.projectID
+                            let userID = context.userID
                             do {
                                 if isVote {
                                     analytics.log(FeatureUpvoteEvent.voteFeature(featureID: featureID))
 
                                     _ = try await context.featureUpvoteProvider.vote(
-                                        projectID: context.projectID,
+                                        projectID: projectID,
                                         featureID: featureID,
-                                        userID: context.userID
+                                        userID: userID
                                     )
                                 } else {
                                     analytics.log(FeatureUpvoteEvent.unvoteFeature(featureID: featureID))
                                     _ = try await context.featureUpvoteProvider.unvote(
-                                        projectID: context.projectID,
+                                        projectID: projectID,
                                         featureID: featureID,
-                                        userID: context.userID
+                                        userID: userID
                                     )
                                 }
                             } catch {
