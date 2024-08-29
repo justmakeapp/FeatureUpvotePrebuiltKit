@@ -125,12 +125,14 @@ final class VoteOnFeaturesViewModel: ObservableObject {
 
     @MainActor
     func fetchListFeatures() async {
+        let userID = context.userID
+        let projectID = context.projectID
+        let featureUpvoteProvider = context.featureUpvoteProvider
         do {
-            let projectID = context.projectID
-            async let features = context.featureUpvoteProvider.features(projectID: projectID)
-            async let votedFeatureIDs = context.featureUpvoteProvider.votedFeatureIDs(
+            async let features = featureUpvoteProvider.features(projectID: projectID)
+            async let votedFeatureIDs = featureUpvoteProvider.votedFeatureIDs(
                 projectID: projectID,
-                userID: context.userID
+                userID: userID
             )
 
             let ids = try await votedFeatureIDs
