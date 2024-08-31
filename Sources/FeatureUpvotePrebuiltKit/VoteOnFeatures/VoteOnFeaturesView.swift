@@ -203,39 +203,9 @@ public struct VoteOnFeaturesView: View {
             }()
 
             FeatureUpvoteView(data: filterdData) { feature, translations in
-                let title: String = {
-                    guard
-                        let nameTranslation = translations.first(where: { translation in
-                            guard let clientID = translation.clientIdentifier else {
-                                return false
-                            }
-                            return clientID.starts(with: feature.id) && clientID.contains("name")
-                        })
-                    else {
-                        return feature.name
-                    }
-
-                    return nameTranslation.targetText
-                }()
-
-                let description: String = {
-                    guard
-                        let descriptionTranslation = translations.first(where: { translation in
-                            guard let clientID = translation.clientIdentifier else {
-                                return false
-                            }
-                            return clientID.starts(with: feature.id) && clientID.contains("desc")
-                        })
-                    else {
-                        return feature.description
-                    }
-
-                    return descriptionTranslation.targetText
-                }()
-
                 FeatureCellView(
-                    title: title,
-                    description: description,
+                    title: feature.name,
+                    description: feature.description,
                     tag: feature.tag
                 ) {
                     VoteButton(voteCount: feature.voteCount, hasVoted: votedFeatureIds.contains(feature.id))
@@ -281,6 +251,18 @@ public struct VoteOnFeaturesView: View {
                         }
                 }
                 .tagColorMap(tagColorMap)
+                .translatedTitle(translations.first(where: { translation in
+                    guard let clientID = translation.clientIdentifier else {
+                        return false
+                    }
+                    return clientID.starts(with: feature.id) && clientID.contains("name")
+                })?.targetText)
+                .translatedDescription(translations.first(where: { translation in
+                    guard let clientID = translation.clientIdentifier else {
+                        return false
+                    }
+                    return clientID.starts(with: feature.id) && clientID.contains("desc")
+                })?.targetText)
             } headerBuilder: {
                 TagFilterView(tags: allTags, selectedTags: $selectedTags)
                     .tagColorMap(tagColorMap)
