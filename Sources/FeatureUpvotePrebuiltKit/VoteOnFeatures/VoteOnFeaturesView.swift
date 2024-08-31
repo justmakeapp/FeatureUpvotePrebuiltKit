@@ -202,10 +202,40 @@ public struct VoteOnFeaturesView: View {
                 return result
             }()
 
-            FeatureUpvoteView(data: filterdData) { feature in
+            FeatureUpvoteView(data: filterdData) { feature, translations in
+                let title: String = {
+                    guard
+                        let nameTranslation = translations.first(where: { translation in
+                            guard let clientID = translation.clientIdentifier else {
+                                return false
+                            }
+                            return clientID.starts(with: feature.id) && clientID.contains("name")
+                        })
+                    else {
+                        return feature.name
+                    }
+
+                    return nameTranslation.targetText
+                }()
+
+                let description: String = {
+                    guard
+                        let descriptionTranslation = translations.first(where: { translation in
+                            guard let clientID = translation.clientIdentifier else {
+                                return false
+                            }
+                            return clientID.starts(with: feature.id) && clientID.contains("desc")
+                        })
+                    else {
+                        return feature.description
+                    }
+
+                    return descriptionTranslation.targetText
+                }()
+
                 FeatureCellView(
-                    title: feature.name,
-                    description: feature.description,
+                    title: title,
+                    description: description,
                     tag: feature.tag
                 ) {
                     VoteButton(voteCount: feature.voteCount, hasVoted: votedFeatureIds.contains(feature.id))
