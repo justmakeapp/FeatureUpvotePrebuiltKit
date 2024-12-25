@@ -20,26 +20,32 @@ public enum FeatureUpvoteEvent: EventType {
     case cancelFeatureUpvote
 
     public func name(for _: ProviderType) -> String? {
-        switch self {
-        case .openFeatureUpvote:
-            return "OpenFeatureUpvote"
-        case .loadFeaturesError:
-            return "LoadFeaturesError"
-        case .voteFeature:
-            return "VoteFeature"
-        case .voteFeatureError:
-            return "VoteFeatureError"
-        case .unvoteFeature:
-            return "UnvoteFeature"
-        case .unvoteFeatureError:
-            return "UnvoteFeatureError"
-        case .createFeature:
-            return "CreateFeature"
-        case .createFeatureError:
-            return "CreateFeatureError"
-        case .cancelFeatureUpvote:
-            return "CancelFeatureUpvote"
-        }
+        let prefix = "feature_upvote"
+
+        let name: String = {
+            switch self {
+            case .openFeatureUpvote:
+                return "open_feature_upvote"
+            case .loadFeaturesError:
+                return "load_features_error"
+            case .voteFeature:
+                return "vote_feature"
+            case .voteFeatureError:
+                return "vote_feature_error"
+            case .unvoteFeature:
+                return "unvote_feature"
+            case .unvoteFeatureError:
+                return "unvote_feature_error"
+            case .createFeature:
+                return "create_feature"
+            case .createFeatureError:
+                return "create_feature_error"
+            case .cancelFeatureUpvote:
+                return "cancel_feature_upvote"
+            }
+        }()
+
+        return "\(prefix)_\(name)"
     }
 
     public func parameters(for _: ProviderType) -> [String: Any]? {
