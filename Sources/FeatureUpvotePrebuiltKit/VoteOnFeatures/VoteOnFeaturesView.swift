@@ -11,6 +11,7 @@ import FeatureUpvoteAPIClient
 import FeatureUpvoteKit
 import FeatureUpvoteKitUI
 import FeatureUpvoteL10n
+import FUService
 import SwiftUI
 import ViewComponent
 
@@ -344,6 +345,7 @@ extension VoteOnFeaturesView {
                 )
                 analytics.log(event)
                 _ = try await featureUpvoteProvider.createFeature(
+                    id: UUID().uuidString,
                     name: name,
                     description: desc,
                     projectID: projectID,

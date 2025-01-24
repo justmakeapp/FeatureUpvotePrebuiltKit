@@ -13,6 +13,7 @@ import FeatureUpvoteKit
 import FeatureUpvoteL10n
 import Foundation
 import FoundationX
+import FUService
 
 final class VoteOnFeaturesViewModel: ObservableObject {
     typealias L10n = FeatureUpvoteL10n.L10n

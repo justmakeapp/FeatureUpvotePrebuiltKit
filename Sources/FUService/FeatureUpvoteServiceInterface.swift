@@ -8,7 +8,7 @@
 import Foundation
 import FoundationX
 
-package struct FeatureObject: Decodable, Sendable {
+public struct FeatureObject: Decodable, Sendable {
     public let id: String
     public let name: L10nValue
     public let description: L10nValue
@@ -18,12 +18,14 @@ package struct FeatureObject: Decodable, Sendable {
     public let updatedAt: Date
 }
 
-package protocol FeatureUpvoteServiceInterface: Sendable {
+public protocol FeatureUpvoteServiceInterface: Sendable {
     func features(projectID: String) async throws -> [FeatureObject]
+    func feature(projectID: String, featureId: String) async throws -> FeatureObject?
     func votedFeatureIDs(projectID: String, userID: String) async throws -> [String]
     func vote(projectID: String, featureID: String, userID: String) async throws -> FeatureObject
     func unvote(projectID: String, featureID: String, userID: String) async throws -> FeatureObject
     func createFeature(
+        id: String,
         name: String,
         description: String,
         projectID: String,

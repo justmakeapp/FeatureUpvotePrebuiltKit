@@ -10,6 +10,14 @@ let package = Package(
             name: "FeatureUpvotePrebuiltKit",
             targets: ["FeatureUpvotePrebuiltKit"]
         ),
+        .library(
+            name: "FUService",
+            targets: ["FUService"]
+        ),
+        .library(
+            name: "FeatureUpvoteAPIClient",
+            targets: ["FeatureUpvoteAPIClient"]
+        ),
     ],
     dependencies: [
         .package(path: "../FeatureUpvote"),
@@ -33,9 +41,13 @@ let package = Package(
             ]
         ),
         .target(
+            name: "FUService",
+            dependencies: ["FoundationX"]
+        ),
+        .target(
             name: "FeatureUpvoteAPIClient",
             dependencies: [
-                "FoundationX",
+                "FUService",
                 .product(name: "SwiftyJSON", package: "SwiftyJSON"),
             ]
         )

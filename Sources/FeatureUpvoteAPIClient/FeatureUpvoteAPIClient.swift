@@ -7,9 +7,10 @@
 
 import Foundation
 import FoundationX
+import FUService
 import SwiftyJSON
 
-package final class FeatureUpvoteAPIClient: AbstractAPIClient {
+public final class FeatureUpvoteAPIClient: AbstractAPIClient {
     private let baseUrl: URL
     private let xApiKey: String
 
@@ -68,6 +69,10 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
 
         let features: [FeatureObject] = try Self.decoder.decode([FeatureObject].self, from: featuresData)
         return features
+    }
+
+    public func feature(projectID: String, featureId: String) async throws -> FeatureObject? {
+        try await features(projectID: projectID).first { $0.id == featureId }
     }
 
     public func votedFeatureIDs(projectID: String, userID: String) async throws -> [String] {
@@ -170,6 +175,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
     }
 
     public func createFeature(
+        id: String = UUID().uuidString,
         name: String,
         description: String,
         projectID: String,
@@ -199,7 +205,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
             let parameters = [
                 "userID": userID,
                 "features": [[
-                    "id": UUID().uuidString,
+                    "id": id,
                     "name": name,
                     "description": description,
                     "tag": tag
