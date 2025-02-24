@@ -123,6 +123,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
 
         var request = URLRequest(url: url)
             .xApiKey(xApiKey)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         request.httpBody = {
             let parameters: [String: Any] = [
@@ -152,6 +153,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
 
         var request = URLRequest(url: url)
             .xApiKey(xApiKey)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         request.httpBody = {
             let parameters: [String: Any] = [
@@ -185,6 +187,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
 
         var request = URLRequest(url: url)
             .xApiKey(xApiKey)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         request.httpBody = {
             let name: [String: Any] = [
