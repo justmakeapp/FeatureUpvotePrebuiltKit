@@ -13,6 +13,7 @@ import FeatureUpvoteKitUI
 import FeatureUpvoteL10n
 import FUService
 import SwiftUI
+import SwiftUIExtension
 import ViewComponent
 
 public struct VoteOnFeaturesView: View {
@@ -21,10 +22,17 @@ public struct VoteOnFeaturesView: View {
     @StateObject var viewModel: VoteOnFeaturesViewModel
     @State private var selectedTags: Set<String> = []
     @State private var searchText = ""
-    @Environment(\.dismiss) private var dismiss
     @State private var error: Error?
-
     @State private var navigationPath: [String] = []
+    @State private var searchBarIsPresented: Bool = {
+        #if os(iOS)
+            return false
+        #else
+            return true
+        #endif
+    }()
+
+    @Environment(\.dismiss) private var dismiss
 
     private let analytics: AnalyticServiceInterface
 
@@ -54,6 +62,13 @@ public struct VoteOnFeaturesView: View {
     }
 
     public var body: some View {
+        navigationView
+            .task {
+                await viewModel.fetchListFeatures()
+            }
+    }
+
+    private var navigationView: some View {
         NavigationStack(path: $navigationPath) {
             contentView
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -80,7 +95,6 @@ public struct VoteOnFeaturesView: View {
                         }
                     }
                 })
-                .searchable(text: $searchText)
                 .toolbar {
                     if navigationPath.isEmpty {
                         #if os(macOS)
@@ -118,12 +132,16 @@ public struct VoteOnFeaturesView: View {
                     }
                 }
         }
+        .modifier {
+            if #available(iOS 17.0, macOS 14.0, *) {
+                $0.searchable(text: $searchText, isPresented: $searchBarIsPresented, placement: .toolbar)
+            } else {
+                $0.searchable(text: $searchText, placement: .toolbar)
+            }
+        }
         #if os(macOS)
         .frame(width: 500, height: 400)
         #endif
-        .task {
-            await viewModel.fetchListFeatures()
-        }
     }
 
     @ViewBuilder
