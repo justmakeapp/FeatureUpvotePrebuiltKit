@@ -80,7 +80,6 @@ final class VoteOnFeaturesViewModel: ObservableObject {
         switch sortType {
         case .alphabetical:
             return [.init(comparator: { a, b in
-
                 let aName = a.name.asString { _ in
                     L10n.bundle
                 }
