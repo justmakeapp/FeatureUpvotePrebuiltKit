@@ -14,6 +14,7 @@ import FeatureUpvoteL10n
 import Foundation
 import FoundationX
 import FUService
+import Logging
 
 final class VoteOnFeaturesViewModel: ObservableObject {
     typealias L10n = FeatureUpvoteL10n.L10n
@@ -25,6 +26,7 @@ final class VoteOnFeaturesViewModel: ObservableObject {
     @Published private var votedFeatureIDs: [String] = []
     @Published private var features: [FeatureObject] = []
 
+    private let logger = Logger(label: String(describing: VoteOnFeaturesViewModel.self))
     private var cancellableSet: Set<AnyCancellable> = []
 
     init(context: Context) {
@@ -139,6 +141,7 @@ final class VoteOnFeaturesViewModel: ObservableObject {
             self.votedFeatureIDs = ids
             self.features = try await features
         } catch {
+            logger.error("❌ Failed to load features: \(error)")
             state = .error(error)
             let event = FeatureUpvoteEvent.loadFeaturesError(message: error.localizedDescription)
             context.analytics.log(event)

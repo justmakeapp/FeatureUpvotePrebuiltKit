@@ -26,7 +26,8 @@ let package = Package(
         .package(path: "../FoundationX"),
         .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.1"),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON", from: "5.0.1"),
-        .package(url: "https://github.com/CombineCommunity/CombineExt", from: "1.8.1")
+        .package(url: "https://github.com/CombineCommunity/CombineExt", from: "1.8.1"),
+        .package(url: "https://github.com/apple/swift-log", from: "1.6.1"),
     ],
     targets: [
         .target(
@@ -38,6 +39,7 @@ let package = Package(
                 .product(name: "AnalyticsKit", package: "AnalyticsKit"),
                 .product(name: "Algorithms", package: "swift-algorithms"),
                 .product(name: "ViewComponent", package: "CommonKitUI"),
+                .product(name: "Logging", package: "swift-log"),
             ]
         ),
         .target(
