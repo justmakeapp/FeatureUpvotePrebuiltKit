@@ -141,6 +141,20 @@ final class VoteOnFeaturesViewModel: ObservableObject {
             self.votedFeatureIDs = ids
             self.features = try await features
         } catch {
+            if let nsError = error as NSError? {
+                if nsError.domain == NSURLErrorDomain &&
+                    nsError.code == NSURLErrorCancelled {
+                    // Ignore cancellation
+                    try? await Task.sleep(for: .seconds(1))
+                    await fetchListFeatures()
+
+                    return
+                }
+
+                // Handle real error
+                logger.debug(nsError)
+                return
+            }
             logger.error("❌ Failed to load features: \(error)")
             state = .error(error)
             let event = FeatureUpvoteEvent.loadFeaturesError(message: error.localizedDescription)
