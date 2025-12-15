@@ -152,7 +152,7 @@ final class VoteOnFeaturesViewModel: ObservableObject {
                 }
 
                 // Handle real error
-                logger.debug(nsError)
+                logger.debug("\(nsError)")
                 return
             }
             logger.error("❌ Failed to load features: \(error)")
