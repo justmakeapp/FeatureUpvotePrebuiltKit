@@ -178,7 +178,7 @@ extension VoteOnFeaturesViewModel {
         case error(Error)
     }
 
-    enum SortType: Int, Hashable, CaseIterable, Identifiable, Sendable {
+    enum SortType: Int, Hashable, CaseIterable, Identifiable {
         case alphabetical
         case createdDate
         case updatedDate

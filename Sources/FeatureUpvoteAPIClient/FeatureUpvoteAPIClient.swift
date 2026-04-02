@@ -67,8 +67,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
         let json = JSON(data)
         let featuresData = try json["features"].rawData()
 
-        let features: [FeatureObject] = try Self.decoder.decode([FeatureObject].self, from: featuresData)
-        return features
+        return try Self.decoder.decode([FeatureObject].self, from: featuresData)
     }
 
     public func feature(projectID: String, featureId: String) async throws -> FeatureObject? {
@@ -114,8 +113,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
                 userInfo: [NSLocalizedDescriptionKey: "feature ids is empty"]
             )
         }
-        let featureIDs = array.compactMap(\.string)
-        return featureIDs
+        return array.compactMap(\.string)
     }
 
     public func vote(projectID: String, featureID: String, userID: String) async throws -> FeatureObject {
@@ -144,8 +142,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
         let json = JSON(data)
         let featureData = try json["feature"].rawData()
 
-        let feature = try Self.decoder.decode(FeatureObject.self, from: featureData)
-        return feature
+        return try Self.decoder.decode(FeatureObject.self, from: featureData)
     }
 
     public func unvote(projectID: String, featureID: String, userID: String) async throws -> FeatureObject {
@@ -172,8 +169,7 @@ extension FeatureUpvoteAPIClient: FeatureUpvoteServiceInterface {
         let data = try processResponseData(data: responseData, statusCode: httpResponse.statusCode)
         let json = JSON(data)
         let featureData = try json["feature"].rawData()
-        let feature = try Self.decoder.decode(FeatureObject.self, from: featureData)
-        return feature
+        return try Self.decoder.decode(FeatureObject.self, from: featureData)
     }
 
     public func createFeature(
