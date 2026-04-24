@@ -18,6 +18,12 @@ public enum FeatureUpvoteEvent: EventType {
     case createFeature(name: String, desc: String)
     case createFeatureError(name: String, desc: String, message: String)
     case cancelFeatureUpvote
+    case featureUpvoteBannerShown
+    case featureUpvoteBannerDismissed
+    case featureUpvoteBannerShowAllTapped
+    case featureUpvoteBannerVote(featureID: String)
+    case featureUpvoteBannerUnvote(featureID: String)
+    case featureUpvoteBannerLoadError(message: String)
 
     public func name(for _: ProviderType) -> String? {
         let prefix = "feature_upvote"
@@ -42,6 +48,18 @@ public enum FeatureUpvoteEvent: EventType {
                 return "create_feature_error"
             case .cancelFeatureUpvote:
                 return "cancel_feature_upvote"
+            case .featureUpvoteBannerShown:
+                return "banner_shown"
+            case .featureUpvoteBannerDismissed:
+                return "banner_dismissed"
+            case .featureUpvoteBannerShowAllTapped:
+                return "banner_show_all_tapped"
+            case .featureUpvoteBannerVote:
+                return "banner_vote"
+            case .featureUpvoteBannerUnvote:
+                return "banner_unvote"
+            case .featureUpvoteBannerLoadError:
+                return "banner_load_error"
             }
         }()
 
@@ -50,7 +68,8 @@ public enum FeatureUpvoteEvent: EventType {
 
     public func parameters(for _: ProviderType) -> [String: Any]? {
         switch self {
-        case .openFeatureUpvote, .cancelFeatureUpvote:
+        case .openFeatureUpvote, .cancelFeatureUpvote,
+             .featureUpvoteBannerShown, .featureUpvoteBannerDismissed, .featureUpvoteBannerShowAllTapped:
             return nil
         case let .loadFeaturesError(message):
             return ["message": message]
@@ -64,6 +83,10 @@ public enum FeatureUpvoteEvent: EventType {
             return ["featureName": name, "featureDesc": desc]
         case let .createFeatureError(name, desc, message):
             return ["featureName": name, "featureDesc": desc, "message": message]
+        case let .featureUpvoteBannerVote(featureID), let .featureUpvoteBannerUnvote(featureID):
+            return ["featureID": featureID]
+        case let .featureUpvoteBannerLoadError(message):
+            return ["message": message]
         }
     }
 }
