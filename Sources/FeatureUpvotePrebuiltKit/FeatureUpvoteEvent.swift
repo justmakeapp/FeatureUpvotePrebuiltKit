@@ -5,8 +5,8 @@
 //  Created by Long Vu on 18/06/2023.
 //
 
+import AnalyticsProtocol
 import Foundation
-import Umbrella
 
 public enum FeatureUpvoteEvent: EventType {
     case openFeatureUpvote
