@@ -43,12 +43,15 @@ public struct VoteOnFeaturesView: View {
         VoteOnFeaturesViewModel.Tag.closed.description: Color.gray,
     ]
 
+    private let onClose: (() -> Void)?
+
     public init(
         projectID: String,
         userID: String,
         baseUrl: URL,
         xApiKey: String,
-        analytics: AnalyticServiceInterface
+        analytics: AnalyticServiceInterface,
+        onClose: (() -> Void)? = nil
     ) {
         let featureUpvoteProvider = FeatureUpvoteAPIClient(baseUrl: baseUrl, xApiKey: xApiKey)
         let ctx = VoteOnFeaturesViewModel.Context(
@@ -59,6 +62,7 @@ public struct VoteOnFeaturesView: View {
         )
         _viewModel = .init(wrappedValue: VoteOnFeaturesViewModel(context: ctx))
         self.analytics = analytics
+        self.onClose = onClose
     }
 
     public var body: some View {
@@ -148,15 +152,25 @@ public struct VoteOnFeaturesView: View {
     private var closeButton: some View {
         #if os(macOS)
             Button(L10n.Action.cancel) {
-                dismiss()
+                close()
             }
         #endif
 
         #if os(iOS)
             CloseButton {
-                dismiss()
+                close()
             }
         #endif
+    }
+
+    // ponytail: \.dismiss doesn't reach this sheet when the host is a .formSheet
+    // UIHostingController on Mac Catalyst; let the presenter close it via onClose.
+    private func close() {
+        if let onClose {
+            onClose()
+        } else {
+            dismiss()
+        }
     }
 
     private var sortMenuView: some View {
