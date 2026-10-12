@@ -128,9 +128,11 @@ public struct VoteOnFeaturesView: View {
                                 return .confirmationAction
                             #endif
                         }()) {
-                            NavigationLink(L10n.Action.create, value: "creation-view")
+                            NavigationLink(value: "creation-view") {
+                                Label(L10n.Action.create, systemImage: "plus")
+                            }
                             #if os(macOS)
-                                .buttonStyle(.borderedProminent)
+                            .buttonStyle(.borderedProminent)
                             #endif
                         }
                     }
@@ -339,7 +341,7 @@ extension VoteOnFeaturesView {
                                 await handleCreate()
                             }
                         } label: {
-                            Text(L10n.Action.create)
+                            Label(L10n.Action.create, systemImage: "paperplane")
                         }
                     }
                 }
