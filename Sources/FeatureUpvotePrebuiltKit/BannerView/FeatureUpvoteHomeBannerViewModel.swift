@@ -15,6 +15,7 @@ public final class FeatureUpvoteHomeBannerViewModel {
     private static var loggedImpressionForSession = false
 
     public var features: [FeatureUpvoteKit.Feature] = []
+    public var topFeature: FeatureUpvoteKit.Feature? { features.first }
     public var votedFeatureIDs: Set<String> = []
     public private(set) var didFetch = false
 
@@ -89,7 +90,6 @@ public final class FeatureUpvoteHomeBannerViewModel {
                 )
             }
             votedFeatureIDs = Set(fetchedVotedIDs)
-            logImpressionIfNeeded()
         } catch {
             if let nsError = error as NSError?,
                nsError.domain == NSURLErrorDomain,
@@ -102,7 +102,8 @@ public final class FeatureUpvoteHomeBannerViewModel {
         }
     }
 
-    private func logImpressionIfNeeded() {
+    /// Call when the banner is actually on screen; logs at most once per session.
+    public func logImpressionIfNeeded() {
         guard !features.isEmpty, !Self.loggedImpressionForSession else { return }
         Self.loggedImpressionForSession = true
         analytics.log(FeatureUpvoteEvent.featureUpvoteBannerShown)
