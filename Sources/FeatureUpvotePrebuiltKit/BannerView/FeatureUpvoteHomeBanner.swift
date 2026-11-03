@@ -25,6 +25,7 @@ public struct FeatureUpvoteHomeBanner: View {
     public var body: some View {
         if !viewModel.features.isEmpty {
             cardContent
+                .onAppear { viewModel.logImpressionIfNeeded() }
         }
     }
 
